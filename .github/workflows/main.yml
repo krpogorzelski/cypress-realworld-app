@@ -9,7 +9,7 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
       options: --user 1001
     steps:
@@ -32,7 +32,7 @@ jobs:
   ui-chrome-tests:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
       options: --user 1001
     needs: install
@@ -49,7 +49,7 @@ jobs:
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v4
         with:
-          command-prefix: 'percy exec -- npx'
+          command-prefix: "percy exec -- npx"
           start: yarn start:ci
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
@@ -64,13 +64,13 @@ jobs:
   ui-chrome-mobile-tests:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
       options: --user 1001
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     containers: [1, 2, 3, 4, 5]
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4, 5]
     needs: install
     steps:
       - name: Checkout
@@ -92,7 +92,7 @@ jobs:
           browser: chrome
           record: true
           parallel: true
-          group: 'UI - Chrome - Mobile'
+          group: "UI - Chrome - Mobile"
           spec: cypress/tests/ui/*
         env:
           # Recommended: pass the GitHub token lets this action correctly
